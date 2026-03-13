@@ -1,0 +1,17 @@
+# Secrets and local config
+config.yaml
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OpenClaw workspace
+.openclaw/

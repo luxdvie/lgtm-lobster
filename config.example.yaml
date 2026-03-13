@@ -1,0 +1,26 @@
+# LGTM Lobster — Configuration
+# Copy this file to config.yaml and fill in your values.
+# config.yaml is gitignored — never commit it.
+
+github:
+  # Your GitHub username
+  username: ""
+  # Organization to monitor
+  org: ""
+  # Repos to watch (list)
+  repos:
+    - "repo-name"
+  # Personal access token (needs: repo, read:org scopes)
+  # Generate at: https://github.com/settings/tokens
+  token: ""
+
+# How often to poll for updates (in minutes)
+poll_interval: 5
+
+# Future: Atlassian integration
+# atlassian:
+#   base_url: ""
+#   email: ""
+#   api_token: ""
+#   project_keys:
+#     - ""
