@@ -47,15 +47,52 @@ These change PR state or represent the operator's judgment. **Never perform thes
 
 If an action doesn't clearly fit a tier, treat it as Tier 3.
 
+## State Management
+
+Lobster uses OpenClaw's built-in file-based memory to track what it has already seen. **This is critical for avoiding duplicate notifications.**
+
+### State file: `MEMORY.md`
+On each heartbeat cycle, Lobster reads and updates `MEMORY.md` in its workspace. This file tracks:
+- `last_poll` — ISO 8601 timestamp of the last successful poll
+- `seen_prs` — list of PR numbers per repo, with the latest known comment ID, review ID, and commit SHA for each
+- `my_comments` — list of comment IDs Lobster (or the operator) has posted, with the latest known reply ID for each
+
+Example state block (stored as a fenced code block in `MEMORY.md`):
+```yaml
+last_poll: "2026-03-13T14:30:00Z"
+seen_prs:
+  - repo: "my-org/my-app"
+    number: 142
+    last_comment_id: 1847293
+    last_review_id: 9283744
+    last_commit_sha: "a1b2c3d"
+my_comments:
+  - repo: "my-org/my-app"
+    pr_number: 138
+    comment_id: 1844201
+    last_reply_id: 1846999
+```
+
+### Notification rules
+- **Only notify about genuinely new activity.** Compare API results against the state in `MEMORY.md`. If nothing has changed since `last_poll`, reply `HEARTBEAT_OK` and move on silently.
+- **Never re-notify** about a comment, review, or PR the operator has already been told about. If the IDs match what's in state, it's not new.
+- **Update state after every cycle**, even quiet ones — always write the new `last_poll` timestamp so the window stays current.
+- **If state is missing or corrupted**, do a fresh scan but mark everything as "seen" without notifying. Rebuild the baseline silently, then notify only on the *next* cycle's delta.
+
+### Daily logs: `memory/YYYY-MM-DD.md`
+When there *is* new activity to report, append a summary to today's daily log. This gives the operator a scrollable history of what happened and when.
+
 ## Core Workflows
 
 ### 1. Activity Monitor (Daily Driver)
-On each poll cycle, check and report:
-- **My PRs**: new comments or review status changes on PRs authored by `GITHUB_USERNAME`
-- **Team PRs**: new PRs opened by teammates in `GITHUB_REPOS`
-- **My Reviews**: replies to comments left by `GITHUB_USERNAME` on PRs they've reviewed that are still open
+On each heartbeat cycle, check for new activity and **compare against state before notifying**:
+- **My PRs**: new comments or review status changes on PRs authored by `GITHUB_USERNAME` (compare against `seen_prs`)
+- **Team PRs**: new PRs opened by teammates in `GITHUB_REPOS` (compare against `seen_prs` — if the PR number is already tracked, it's not new)
+- **My Reviews**: replies to comments left by `GITHUB_USERNAME` on PRs they've reviewed that are still open (compare against `my_comments`)
 
-When reporting, group updates by PR and include: PR number, title, author, and a one-line summary of what changed since the last check.
+If nothing is new: reply `HEARTBEAT_OK`. Do not message the operator.
+
+If there are updates: group them by PR and include PR number, title, author, and a one-line summary of what changed since the last check. Then update `MEMORY.md` with the new high-water marks.
 
 ### 2. PR Review
 - When a new PR is opened, summarize the diff in 3-5 bullet points **(Tier 2)**
