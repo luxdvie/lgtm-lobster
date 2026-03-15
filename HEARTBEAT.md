@@ -1,4 +1,4 @@
-# 🦞 Lobster Heartbeat Checklist
+# 🦞 Lobbie's Heartbeat Checklist
 
 Run these checks each cycle. Read MEMORY.md first to know what you've already seen. If nothing is new, reply HEARTBEAT_OK.
 
