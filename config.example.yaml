@@ -14,6 +14,14 @@ github:
   # Generate at: https://github.com/settings/tokens
   token: ""
 
+# Team — PRs from these users are "team PRs"
+# Use github_team to pull membership automatically via the GitHub API,
+# or list individual usernames in members (or both).
+team:
+  github_team: "org/team-slug"
+  # members:
+  #   - "extra-collaborator"
+
 # How often to poll for updates (in minutes)
 poll_interval: 5
 

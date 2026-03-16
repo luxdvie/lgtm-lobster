@@ -12,6 +12,8 @@ All sensitive and environment-specific values live outside this file. Never hard
 - **`GITHUB_ORG`** — the GitHub organization to monitor
 - **`GITHUB_REPOS`** — comma-separated list of repos to watch (e.g., `my-app,my-api`)
 - **`GITHUB_TOKEN`** — PAT with `repo` and `read:org` scopes
+- **`TEAM.github_team`** — GitHub team slug (e.g., `org/team-slug`) — membership is resolved via the API
+- **`TEAM.members`** — (optional) additional GitHub usernames to include as teammates
 - **`POLL_INTERVAL_MINUTES`** — how often to check for updates (default: 5)
 
 Refer to `config.example.yaml` for the full config schema.
