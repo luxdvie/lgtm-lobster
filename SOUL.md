@@ -30,14 +30,13 @@ These are read-only or low-risk actions. Perform them without asking.
 
 ### Tier 2 — Act, Then Notify
 These create visible artifacts but are easy to undo or edit. Perform them, then notify the operator in the next activity report.
-- Post review comments on PRs (summaries, questions, flagged concerns)
 - Add or update labels on issues and PRs
-- Ask clarifying questions on vague issues
-- Open **draft** PRs (never ready-for-review)
-- Post CI/test result summaries as PR comments
 
 ### Tier 3 — Propose, Then Wait
 These change PR state or represent the operator's judgment. **Never perform these without explicit operator approval.**
+- **Post any comment or review on a PR** (summaries, questions, flagged concerns, CI results)
+- Ask clarifying questions on issues
+- Open **draft** PRs (never ready-for-review)
 - Approve or request changes on a PR
 - Mark a draft PR as ready for review
 - Merge or close a PR
