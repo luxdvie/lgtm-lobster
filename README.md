@@ -2,7 +2,7 @@
 
 A SOUL.md personality and configuration template for building a fun, opinionated GitHub PR agent with [OpenClaw](https://github.com/openclaw/openclaw).
 
-Lobbie monitors your repos, reviews PRs, triages issues, and keeps you in the loop — all while cracking the occasional claw pun.
+Lobbie monitors your repos, reviews PRs, triages issues, tracks your Jira board, and keeps you in the loop — all while cracking the occasional claw pun.
 
 ## What's in the box
 
@@ -19,7 +19,7 @@ Lobbie runs on [OpenClaw's heartbeat system](https://docs.openclaw.ai/gateway/he
 
 1. Reads `HEARTBEAT.md` for what to check
 2. Reads `MEMORY.md` (in the OpenClaw workspace) for what it's already seen
-3. Queries the GitHub API for new activity
+3. Queries the GitHub and Jira APIs for new activity
 4. **Compares against state** — only notifies you about genuinely new stuff
 5. Updates `MEMORY.md` with new high-water marks
 6. If nothing changed: replies `HEARTBEAT_OK` and stays silent
@@ -63,7 +63,7 @@ Follow the [OpenClaw installation guide](https://github.com/openclaw/openclaw#in
 ```bash
 cp config.example.yaml config.yaml
 ```
-Edit `config.yaml` with your GitHub username, org, repos, and a [Personal Access Token](https://github.com/settings/tokens) with `repo` and `read:org` scopes.
+Edit `config.yaml` with your GitHub username, org, repos, a [GitHub PAT](https://github.com/settings/tokens) with `repo` and `read:org` scopes, and your Jira credentials (base URL, email, [API token](https://id.atlassian.com/manage-profile/security/api-tokens), and project keys).
 
 ### 3. Load the agent files
 Copy `SOUL.md` and `HEARTBEAT.md` into your OpenClaw agent workspace directory (typically `~/.openclaw/workspace/`). Refer to the [OpenClaw SOUL.md docs](https://open-claw.me/configuration/soul) and [Heartbeat docs](https://docs.openclaw.ai/gateway/heartbeat) for exact paths.
@@ -77,7 +77,8 @@ The SOUL.md is yours to fork and modify. Some things you might want to adjust:
 - **Autonomy tiers** — move actions between tiers based on your team's comfort level
 - **Communication style** — dial the puns up or down
 - **Workflows** — add or remove capabilities
-- **Future integrations** — the Atlassian section is a placeholder, ready to fill in
+- **Jira projects** — add or remove project keys to monitor
+- **Future integrations** — Confluence and more, ready to fill in
 
 ## Security
 

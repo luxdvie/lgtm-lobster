@@ -25,10 +25,14 @@ team:
 # How often to poll for updates (in minutes)
 poll_interval: 5
 
-# Future: Atlassian integration
-# atlassian:
-#   base_url: ""
-#   email: ""
-#   api_token: ""
-#   project_keys:
-#     - ""
+# Jira integration
+jira:
+  # Your Atlassian instance URL
+  base_url: "https://your-company.atlassian.net"
+  # Jira account email
+  email: ""
+  # API token — generate at: https://id.atlassian.com/manage-profile/security/api-tokens
+  api_token: ""
+  # Project keys to monitor
+  project_keys:
+    - ""
